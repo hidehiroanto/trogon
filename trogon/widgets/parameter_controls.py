@@ -157,7 +157,10 @@ class ParameterControls(Widget):
                         for default_value, control_widget in zip(
                             default_value_tuple, widget_group
                         ):
-                            self._apply_default_value(control_widget, default_value)
+                            if isinstance(default_value, Callable):
+                                self._apply_default_value(control_widget, default_value())
+                            else:
+                                self._apply_default_value(control_widget, default_value)
                             yield control_widget
                             # Keep track of the first control we render, for easy focus
                             if first_focus_control is None:
